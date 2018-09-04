@@ -60,10 +60,12 @@ input {
 ul{
   list-style-type: none;
   padding: 0;
+  margin: 1%;
 }
 .username{
   width: 100%;
   padding-bottom: 35px;
+  padding-right: 10px;
   color: #18A086;
   font-size: 20px;
 }
@@ -74,12 +76,17 @@ ul{
 .time{
   font-size: 10px;
 }
+.vcont
 .votes{
-  float: right;
-  padding-right: 10px
+  padding-left: 10px
+}
+.vbutton{
+  background-color: white;
+  border: none;
 }
 a{
-  color: red;
+  color: green;
+  padding: 2px;
   float: right;
   cursor: pointer;
 }
