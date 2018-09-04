@@ -52,38 +52,54 @@ class Comment {
     }
       addComment(comment){
         // state logic
-        const id = String(Date.now())
+        var date = new Date();
+        const id = String(date);
+        //console.log(date.getHours());
+        var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
         this.state = this.state.concat({comment, id})
-        data.Comments = data.Comments.concat({
+        data.Comments[id] = {
           comment: comment,
           id: id,
           time: id,
           user: currentUser,
           votes: 0
-        })
+        }
 
         // UI logic
         this.updateHelp()
 
-
+        //creating elements
         const li = document.createElement('li')
-        const span1 = document.createElement('span');
+        const Name = document.createElement('span');
         const span = document.createElement('span')
         const del = document.createElement('a')
-        span1.innerText = currentUser
-        span1.classList.add('title')
-        span1.classList.add('username')
+        const votes = document.createElement('span');
+        const time  = document.createElement('span');
+
+        //setting values
+        Name.innerText = currentUser
+        const Ct = data.Comments[id]
+        votes.classList.add('votes')
+        votes.innerText = Ct.votes
+        Name.classList.add('title','username')
         span.classList.add('comment')
         span.innerText = comment
+        time.innerText = hours+":"+minutes
+        time.classList.add('time')
         del.innerText = 'delete'
         del.setAttribute('data-delete-id',id)
         li.classList.add('collection-item');
 
+
+        //Putting elements in the dom
         this.ul.appendChild(li)
-        li.appendChild(span1)
+        li.appendChild(Name)
         li.appendChild(document.createElement('br'))
         li.appendChild(del)
+        li.appendChild(time)
         li.appendChild(span)
+        li.appendChild(votes)
         this.items[id] = li
       }
       removeComment(id) {
