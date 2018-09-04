@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>Comment module</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="CSS/style.css">
+  </head>
+  <body>
+  <div class="container-fluid">
+      <nav>
+        <div class="nav-wrapper grey darken-4">
+          <a href="#" class="brand-logo">cleartax</a>
+          <ul id="nav-mobile" class="right hide-on-med-add-down">
+            <li><a href="#">Tax Filling & Saving</a></li>
+            <li><a href="#">CA & Legal Services</a></li>
+            <li><a href="#">GST & Billing</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="home row">
+        <div class="home-main col s6">
+          <div class="valign-wrapper">
+              <h1 class="heading">Discuss to Innovate!</h1>
+          </div>
+          <div class="row center-align" id="handle">
+                <form class="col s12">
+                  <div class="input-field">
+                    <input class="validate" id="name" type="text" >
+                    </input>
+                    <label class="help" for="name">Name/Handle</label>
+                  </div>
+                  <button class="btn waves-effect waves-light" onclick="setName()">
+                    Enter discussion
+                  </button>
+                </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <span><p class="lg" id="current-user">Logged in as:</p></span>
+        <h2 class="heading2">Comment Section</h2>
+        <div class="col s12" id="comment-section">
+          <label class="help"></label>
+          <ul class="collection">
+          </ul>
+          <form class="comment">
+            <input placeholder="Add Comment">
+              <button class="btn waves-effect waves-light" onclick="setComment()">
+                Comment
+              </button>
+            </input>
+          </form>
+        </div>
+      </div>
+      <footer class="page-footer grey darken-4">
+        <div  class="footer-copyright">
+            <div class="container">
+              <h4>Footer</h4>
+            </div>
+        </div>
+      </footer>
+    </div>
+    <script type="text/javascript" src="JS/javascript.js"></script>
+  </body>
+</html>
