@@ -1,7 +1,7 @@
 
 var data = {
   Comments: [],
-  User: []
+  user: []
 }
 var currentUser;
 var userId = 0;
@@ -17,7 +17,7 @@ Comment = {
 User = {
   userId: Integer,
   Name: name,
-  Avatar: Image 
+  Avatar: Image
 }
 */
 class Comment {
@@ -54,20 +54,34 @@ class Comment {
         // state logic
         const id = String(Date.now())
         this.state = this.state.concat({comment, id})
+        data.Comments = data.Comments.concat({
+          comment: comment,
+          id: id,
+          time: id,
+          user: currentUser,
+          votes: 0
+        })
 
         // UI logic
         this.updateHelp()
 
 
         const li = document.createElement('li')
+        const span1 = document.createElement('span');
         const span = document.createElement('span')
         const del = document.createElement('a')
+        span1.innerText = currentUser
+        span1.classList.add('title')
+        span1.classList.add('username')
+        span.classList.add('comment')
         span.innerText = comment
         del.innerText = 'delete'
         del.setAttribute('data-delete-id',id)
         li.classList.add('collection-item');
 
         this.ul.appendChild(li)
+        li.appendChild(span1)
+        li.appendChild(document.createElement('br'))
         li.appendChild(del)
         li.appendChild(span)
         this.items[id] = li
@@ -93,19 +107,29 @@ class Comment {
 }
 
 class User {
-  constructor(doc) {
+  constructor(doc,userId) {
     this.doc = doc;
     this.formName = doc.querySelector('form');
     this.nameInput = this.formName.querySelector('input');
     const name = this.nameInput.value;
     currentUser = name;
+    if(currentUser!=""){
+      const bt = document.getElementById('bt');
+      bt.innerText = "Change Name";
+    }
     const user = document.getElementById('current-user');
     user.innerText = "Logged in as: "+currentUser;
     if(""===name){
       alert("Please enter a name");
+      const bt = document.getElementById('bt');
+      bt.innerText = "Enter discussion";
       window.location.href = '#';
     }else{
-      console.log(name);
+      data.user[userId] = {
+        Name: name,
+        id: userId,
+        Avatar: "none"
+      }
       this.nameInput.value = '';
       window.location.href = '#comment-section';
     }
@@ -115,7 +139,8 @@ class User {
 
 function setName(){
     const doc = document.getElementById('handle')
-    new User(doc);
+    new User(doc,userId);
+    userId++;
 }
 function setComment() {
   const root = document.getElementById('comment-section')

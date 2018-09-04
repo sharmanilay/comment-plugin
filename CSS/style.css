@@ -61,7 +61,16 @@ ul{
   list-style-type: none;
   padding: 0;
 }
-
+.username{
+  width: 100%;
+  padding-bottom: 35px;
+  color: #18A086;
+  font-size: 20px;
+}
+.comment{
+  padding-left: 2%;
+  color: blue;
+}
 a{
   color: red;
   float: right;
