@@ -133,7 +133,9 @@ function setComment() {
   if(currentUser!=null){
     new Comment(root)
   }else{
-    alert('set a name first');
+    const btt = document.getElementById('comment-reply')
+    btt.classList.add('modal-trigger')
+    btt.setAttribute('data-target','modal1')
     window.location.href = '#';
   }
 }
@@ -158,13 +160,22 @@ function updateUI(cmt) {
   const li = document.createElement('li')
   const Name = document.createElement('span');
   const span = document.createElement('span')
-  const rep = document.createElement('a')
+  const rep = document.createElement('button')
   const del = document.createElement('a')
   const time  = document.createElement('span');
   const vcont = document.createElement('span');
   const votes = document.createElement('span');
   const up = document.createElement('button');
   const down = document.createElement('button');
+  const ul = document.createElement('ul');
+
+  Ct.replies.forEach((replyId)=>{
+    const rId = data.Comments.find((item)=> item.id==replyId);
+
+  })
+  //setting up a list-item
+  li.classList.add('collection-item');
+  li.setAttribute('id',cmt.id)
 
   //setting values
   vcont.classList.add('vcount');
@@ -180,15 +191,19 @@ function updateUI(cmt) {
     removeComment(id);
   })
 
+  //votes
   votes.classList.add('votes')
   votes.innerText = Ct.votes
 
+  //Comment
   span.classList.add('comment')
   span.innerText = cmt.comment
 
+  //time
   time.innerText = hours+":"+minutes
   time.classList.add('time')
 
+  //upvote
   up.innerHTML = '&#x21e7';
   up.classList.add('btn-flat')
   up.addEventListener("click", function() {
@@ -199,6 +214,7 @@ function updateUI(cmt) {
   })
   up.classList.add('vbutton')
 
+  //downvote
   down.innerHTML = '&#x21e9';
   down.classList.add('btn-flat')
   down.addEventListener("click", function() {
@@ -210,15 +226,27 @@ function updateUI(cmt) {
   down.classList.add('vbutton')
 
 
-
+  //reply
   rep.innerText = "reply"
   rep.setAttribute('data-rep-id', cmt.id)
+  rep.setAttribute('data-target','modal1')
+  rep.classList.add('vbutton','modal-trigger')
+  rep.classList.add('modal-trigger')
   rep.addEventListener("click", e => {
     e.preventDefault();
-    console.log("I will write a reply");
+    const mc = document.getElementById('mc')
+    const rcButton = document.getElementById('rp-button')
+    if(currentUser!=null){
+      const id = rep.getAttribute('data-rep-id');
+      const rc = data.user.find((user)=> user.id==id);
+    }else{
+      mc.innerText = "Please Login to write a reply";
+      rcButton.innerText = "Login";
+    }
+
   })
 
-  li.classList.add('collection-item');
+
 
 
   //Putting elements in the dom
@@ -248,6 +276,8 @@ function removeComment(id) {
   this.ul.removeChild(li)
 }
 window.onload = function () {
+  var elems = document.querySelectorAll('.modal');
+  var instances = M.Modal.init(elems);
   var datas = JSON.parse(localStorage.getItem('data'));
   if(datas!=null){
     data = datas;
