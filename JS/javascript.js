@@ -1,8 +1,12 @@
+let db;
+
+
 
 var data = {
   Comments: [],
   user: []
 }
+
 var currentUser;
 var userId = 0;
 /*
@@ -17,7 +21,9 @@ Comment = {
 User = {
   userId: Integer,
   Name: name,
-  Avatar: Image
+  Avatar: Image,
+  upvotes: Set()
+  downvotes: Set()
 }
 */
 class Comment {
@@ -168,27 +174,36 @@ class User {
   constructor(doc,userId) {
     this.doc = doc;
     this.formName = doc.querySelector('form');
-    this.nameInput = this.formName.querySelector('input');
+    this.nameInput = this.formName.querySelector('#name');
+    this.emailInput = this.formName.querySelector('#email')
+    this.passwordInput = this.formName.querySelector('#password')
     const name = this.nameInput.value;
+    const email = this.emailInput.value;
+    const password = this.passwordInput.value;
     currentUser = name;
-    if(currentUser!=""){
+    if(currentUser!="" && email!="" && password!=""){
       const bt = document.getElementById('bt');
-      bt.innerText = "Change Name";
+      bt.innerText = "Logout";
     }
     const user = document.getElementById('current-user');
     user.innerText = "Logged in as: "+currentUser;
     if(""===name){
       alert("Please enter a name");
       const bt = document.getElementById('bt');
-      bt.innerText = "Enter discussion";
+      bt.innerText = "Login";
       window.location.href = '#';
     }else{
       data.user[userId] = {
         Name: name,
         id: userId,
-        Avatar: "none"
+        email: email,
+        password: password,
+        upvotes: [],
+        downvotes: [],
       }
       this.nameInput.value = '';
+      this.emailInput.value = 'aj';
+      this.passwordInput.value = 'ad';
       window.location.href = '#comment-section';
     }
   }
@@ -208,4 +223,16 @@ function setComment() {
     alert('set a name first');
     window.location.href = '#';
   }
+}
+
+window.onload = function(){
+  let request = window.indexedDB.open('data',1);
+  request.onerror = function(){
+    console.log('Database failed to open');
+  }
+  request.onsuccess = function() {
+    console.log('Database opened succesfully');
+  }
+  db = request.result;
+  displayData();
 }
