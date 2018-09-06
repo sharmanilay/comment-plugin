@@ -6,6 +6,7 @@ var data = {
 var items = {}
 this.state = []
 var currentUser;
+var replyId;
 
 class Comment {
   constructor(root) {
@@ -42,9 +43,10 @@ class Comment {
           comment: comment,
           id: id,
           time: id,
-          user: currentUser,
+          user: currentUser.user,
           replies: [],
-          votes: 0
+          votes: 0,
+          isReply: false
         }
         data.Comments = data.Comments.concat(cmt);
 
@@ -66,49 +68,70 @@ class User {
     const email = this.emailInput.value;
     const password = this.passwordInput.value;
     this.passwordInput.value = '';
-    if(data.user.find((u)=>{
+    var u = data.user.find((u)=>{
       if(u.email==email){
-        return true;
+        return u
       }
-      return false
-    })){
-      this.emailInput.value = 'Email already in use!!';
+      return null;
+    })
+
+    if(u!=null){
+      const alert = document.getElementById('helper-txt');
+      if(u.user==name && u.password==password){
+        setCurrentUser(u);
+        const bt = document.getElementById('bt');
+        bt.innerText = "Logout";
+        this.nameInput.disabled = true;
+        this.emailInput.disabled = true;
+        this.passwordInput.disabled = true;
+        alert.innerText = "Logged in"
+      }else if(u.user!=name){
+        this.emailInput.value = "Email already in use!";
+      }else if(u.password!=password){
+
+        alert.innerText = "Wrong Password!"
+      }
     }else{
-        if(currentUser!="" && email!="" && password!="" && bt.innerText!="Logout"){
-          currentUser = name;
+        if(name!="" && email!="" && password!="" && bt.innerText!="Logout"){
           const bt = document.getElementById('bt');
           bt.innerText = "Logout";
           this.nameInput.disabled = true;
           this.emailInput.disabled = true;
           this.passwordInput.disabled = true;
         }
-        const user = document.getElementById('current-user');
-        user.innerText = "Logged in as: "+currentUser;
-      if(""===name){
-        alert("Please enter a name");
-        const bt = document.getElementById('bt');
-        bt.innerText = "Login";
-        window.location.href = '#';
-      }else{
-        const upvotes = new Set();
-        const downvotes = new Set();
-        const dat = new Date();
-        data.user = data.user.concat({
-          Name: name,
-          id: String(dat),
-          email: email,
-          password: password,
-          upvotes: upvotes,
-          downvotes: downvotes,
-        });
-        localStorage.setItem('data', JSON.stringify(data));
-        window.location.href = '#comment-section';
+        if(""===name){
+          alert("Please enter a name");
+          const bt = document.getElementById('bt');
+          bt.innerText = "Login";
+          window.location.href = '#';
+        }else{
+          const upvotes = new Set();
+          const downvotes = new Set();
+          const dat = new Date();
+          const u = {
+            user: name,
+            id: String(dat),
+            email: email,
+            password: password,
+            upvotes: upvotes,
+            downvotes: downvotes,
+          }
+          setCurrentUser(u);
+        }
       }
     }
-  }
 }
 
-
+function setCurrentUser(u) {
+  const user = document.getElementById('current-user');
+  currentUser = u;
+  user.innerText = "Logged in as: "+currentUser.user;
+  if(!data.user.includes(currentUser)){
+    data.user = data.user.concat(currentUser);
+    localStorage.setItem('data', JSON.stringify(data));
+  }
+  window.location.href = '#comment-section';
+}
 function setName(){
     const doc = document.getElementById('handle')
     const bt = document.getElementById('bt');
@@ -118,6 +141,11 @@ function setName(){
       this.nameInput = this.formName.querySelector('#name');
       this.emailInput = this.formName.querySelector('#email')
       this.passwordInput = this.formName.querySelector('#password')
+      const alert = document.getElementById('helper-txt');
+      alert.innerText = ''
+      this.nameInput.disabled = false;
+      this.emailInput.disabled = false;
+      this.passwordInput.disabled = false;
       this.passwordInput.value = '';
       this.nameInput.value = '';
       this.emailInput.value = '';
@@ -217,11 +245,22 @@ function updateUI(cmt) {
   //downvote
   down.innerHTML = '&#x21e9';
   down.classList.add('btn-flat')
+  down.setAttribute('id',cmt.id)
   down.addEventListener("click", function() {
-    Ct.votes--;
-    votes.innerText = Ct.votes
-    down.classList.add('disabled');
-    up.classList.remove('disabled');
+    if(currentUser!=null){
+      const user = data.user.find((user)=>user.id==currentUser.id)
+      if(!user.downvotes.contains(cmt.id) && !user.upvotes.contains(cmt.id)){
+        Ct.votes--;
+        user.downvotes.add(cmt.id);
+      }else if(user.upvotes.contains(cmt.id)){
+        Ct.votes-=2;
+        user.upvotes.remove(cmt.id);
+        user.downvotes.add(cmt.id);
+      }
+      votes.innerText = Ct.votes
+      down.classList.add('disabled');
+      up.classList.remove('disabled');
+    }
   })
   down.classList.add('vbutton')
 
@@ -237,8 +276,15 @@ function updateUI(cmt) {
     const mc = document.getElementById('mc')
     const rcButton = document.getElementById('rp-button')
     if(currentUser!=null){
+      const form = document.createElement('form')
+      const input = document.createElement('input')
+      input.setAttribute('id','reply-comment')
+      input.setAttribute('placeholder','add a reply')
+      form.appendChild(input)
+      mc.appendChild(form)
+
       const id = rep.getAttribute('data-rep-id');
-      const rc = data.user.find((user)=> user.id==id);
+      replyId = id;
     }else{
       mc.innerText = "Please Login to write a reply";
       rcButton.innerText = "Login";
@@ -254,7 +300,7 @@ function updateUI(cmt) {
   li.appendChild(Name)
   li.appendChild(time)
   li.appendChild(document.createElement('br'))
-  if(cmt.user==currentUser){
+  if(currentUser!=null && cmt.user==currentUser.user){
     li.appendChild(del)
   }
   li.appendChild(rep)
@@ -274,6 +320,13 @@ function removeComment(id) {
   localStorage.setItem('data', JSON.stringify(data));
   this.updateHelp()
   this.ul.removeChild(li)
+}
+function setReply() {
+  this.inputValue = document.getElementById('reply-comment')
+  const reply = this.inputValue.value;
+  var date = Date.now();
+  const cmt = data.Comments.find((cmt)=> cmt.id==replyId)
+
 }
 window.onload = function () {
   var elems = document.querySelectorAll('.modal');

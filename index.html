@@ -39,6 +39,7 @@
                     <input autocomplete="off" class="validate" id="password" type="password" >
                     </input>
                     <label class="help" for="password">Password</label>
+                    <span id="helper-txt" class="helper-text"></span>
                   </div>
                   <button id="bt" class="btn waves-effect waves-light" onclick="setName()">
                     Login
@@ -48,9 +49,10 @@
         </div>
       </div>
       <div id="modal1" class="modal">
-        <div id="mc" class="modal-content"></div>
+        <div id="mc" class="modal-content">
+        </div>
         <div class="modal-footer">
-          <a href="#!" id="rp-button" class="modal-close btn-flat">Add Reply</a>
+          <button id="rp-button"  onclick="setReply()" class="modal-close btn-flat">Add Reply</a>
         </div>
       </div>
       <div class="row">
