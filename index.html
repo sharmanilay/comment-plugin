@@ -26,17 +26,26 @@
           <div class="cred row center-align" id="handle">
                 <form class="col s12">
                   <div class="input-field">
-                    <input autocomplete="off" class="validate" id="name" type="text" >
+                    <input required="true" autocomplete="off" class="validate" id="name" type="text" >
                     </input>
                     <label class="help" for="name">Name/Handle</label>
                   </div>
+                  <div class="file-field input-field">
+                      <div class="btn">
+                          <span>Avatar</span>
+                          <input src="" id="avatar" onchange="previewFile()" type="file">
+                      </div>
+                      <div class="file-path-wrapper">
+                        <img class="circle avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQYBKbWgRtEVekYT2fh9l3sudGGq8-LjDfqMGEhgPqk31U4kzb" id="tableAvatar" />
+                      </div>
+                  </div>
                   <div class="input-field">
-                    <input autocomplete="off" class="validate" id="email" type="email" >
+                    <input required="true" autocomplete="off" class="validate" id="email" type="email" >
                     </input>
                     <label class="help" for="email">Email</label>
                   </div>
                   <div class="input-field">
-                    <input autocomplete="off" class="validate" id="password" type="password" >
+                    <input required="true" autocomplete="off" class="validate" id="password" type="password" >
                     </input>
                     <label class="help" for="password">Password</label>
                     <span id="helper-txt" class="helper-text"></span>

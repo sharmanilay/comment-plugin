@@ -7,6 +7,7 @@ var items = {}
 this.state = []
 var currentUser;
 var replyId;
+var reader  = new FileReader();
 
 class Comment {
   constructor(root) {
@@ -44,6 +45,7 @@ class Comment {
           id: id,
           time: id,
           user: currentUser.user,
+          img: currentUser.avatar,
           replies: [],
           votes: 0,
           isReply: false
@@ -59,14 +61,17 @@ class Comment {
 
 class User {
   constructor(doc) {
+    //intialization
     this.doc = doc;
     this.formName = doc.querySelector('form');
     this.nameInput = this.formName.querySelector('#name');
     this.emailInput = this.formName.querySelector('#email')
     this.passwordInput = this.formName.querySelector('#password')
+    this.avatar = document.getElementById('tableAvatar')
     const name = this.nameInput.value;
     const email = this.emailInput.value;
     const password = this.passwordInput.value;
+    const img = this.avatar.src
     this.passwordInput.value = '';
     var u = data.user.find((u)=>{
       if(u.email==email){
@@ -111,6 +116,7 @@ class User {
           const u = {
             user: name,
             id: String(dat),
+            avatar: img,
             email: email,
             password: password,
             upvotes: upvotes,
@@ -196,6 +202,10 @@ function updateUI(cmt) {
   const up = document.createElement('button');
   const down = document.createElement('button');
   const ul = document.createElement('ul');
+  const avt = document.createElement('img');
+
+  avt.src = Ct.img;
+  avt.classList.add('cmt-avatar','circle','responsive-img');
 
   Ct.replies.forEach((replyId)=>{
     const rId = data.Comments.find((item)=> item.id==replyId);
@@ -232,31 +242,57 @@ function updateUI(cmt) {
   time.classList.add('time')
 
   //upvote
+  //// TODO: Upvote functionlaity
   up.innerHTML = '&#x21e7';
   up.classList.add('btn-flat')
   up.addEventListener("click", function() {
-    Ct.votes++;
+    const user = data.user.find((user)=>user.id==currentUser.id)
+
+    if(!user.downvotes.size && !user.upvotes.size){
+      Ct.votes++;
+      user.upvotes.add(Ct.id);
+    }
+    if(user.downvotes.has(cmt.id)){
+      Ct.votes+=2;
+      user.downvotes.delete(cmt.id);
+      user.upvotes.add(cmt.id);
+    }
+    if(!user.upvotes.has(cmt.id)){
+      Ct.votes++;
+      user.upvotes.add(cmt.id);
+    }
+    localStorage.setItem('data',JSON.stringify(data));
     votes.innerText = Ct.votes
     up.classList.add('disabled');
     down.classList.remove('disabled');
+
   })
   up.classList.add('vbutton')
 
   //downvote
+  //// TODO: Downvote functionlaity
   down.innerHTML = '&#x21e9';
   down.classList.add('btn-flat')
   down.setAttribute('id',cmt.id)
   down.addEventListener("click", function() {
     if(currentUser!=null){
       const user = data.user.find((user)=>user.id==currentUser.id)
-      if(!user.downvotes.contains(cmt.id) && !user.upvotes.contains(cmt.id)){
+
+      if(!user.downvotes.size && !user.upvotes.size){
         Ct.votes--;
-        user.downvotes.add(cmt.id);
-      }else if(user.upvotes.contains(cmt.id)){
+        user.downvotes.add(Ct.id);
+      }
+      if(user.upvotes.has(cmt.id)){
         Ct.votes-=2;
-        user.upvotes.remove(cmt.id);
+        user.votes.delete(cmt.id);
         user.downvotes.add(cmt.id);
       }
+      if(!user.downvotes.has(cmt.id)){
+        Ct.votes--;
+        user.downvotes.add(cmt.id);
+      }
+      localStorage.setItem('data',JSON.stringify(data));
+      //console.log(user.downvotes.size);
       votes.innerText = Ct.votes
       down.classList.add('disabled');
       up.classList.remove('disabled');
@@ -297,6 +333,7 @@ function updateUI(cmt) {
 
   //Putting elements in the dom
   this.ul.appendChild(li)
+  li.appendChild(avt)
   li.appendChild(Name)
   li.appendChild(time)
   li.appendChild(document.createElement('br'))
@@ -337,10 +374,21 @@ window.onload = function () {
     printComments();
   }
 }
-
 function printComments(){
   let Comments = data.Comments;
   Comments.forEach((cmt)=>{
     updateUI(cmt)
   })
+}
+function previewFile() {
+  var avatar = document.getElementById('tableAvatar')
+  var file = document.querySelector('input[type=file]').files[0];
+  if(file){
+    reader.readAsDataURL(file);
+  }else{
+    avatar.src = "";
+  }
+  reader.onloadend = function () {
+    avatar.src = reader.result;
+  }
 }
