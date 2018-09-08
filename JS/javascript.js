@@ -109,44 +109,61 @@ class User {
     }
   }
 }
+
 function addComment(comment,isReply,parent) {
   // state logic
   var date = new Date();
   const id = String(date);
-  const ul = parent.querySelector('#reply-ul');
+  var ul;
   var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
   var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
   state = state.concat({
     comment,
     id
   })
-  var cmt = {
-    comment: comment,
-    id: id,
-    time: id,
-    user: currentUser.user,
-    userId: currentUser.id,
-    img: currentUser.avatar,
-    replies: [],
-    votes: 0,
-    isReply: isReply,
+  var cmt = {}
+  if(!isReply){
+      cmt = {
+        comment: comment,
+        id: id,
+        time: id,
+        user: currentUser.user,
+        userId: currentUser.id,
+        img: currentUser.avatar,
+        replies: [],
+        votes: 0,
+        isReply: false,
+      }
+      ul = document.getElementById('cs-ul')
+  }else{
+      ul =  parent.querySelector('#reply-ul');
+      if(currentUser!=null){
+        cmt = {
+          comment: comment,
+          id: id,
+          time: id,
+          user: currentUser.user,
+          userId: currentUser.id,
+          img: currentUser.avatar,
+          replies: [],
+          votes: 0,
+          isReply: true,
+        }
+      }else{
+        //console.log(comment.comment)
+        cmt = data.Comments.find(item => item.comment === comment.comment)
+      }
+      const pid = parent.getAttribute('id');
+      const parot = data.Comments.find((item)=> item.id==pid)
+      parot.replies.push(cmt.id);
   }
-  data.Comments = data.Comments.concat(cmt);
-
-  localStorage.setItem('data', JSON.stringify(data));
-
-  updateHelp()
-  //if(!isReply){
-  //  ul = parent.querySelector('ul');
-  //}else{
-  //  ul = parent.querySelector('reply-ul');
-    const pid = parent.getAttribute('id');
-    const parot = data.Comments.find((item)=> item.id==pid)
-    parot.replies.push(id);
-  //}
-  const li = updateUI(cmt);
-  ul.appendChild(li);
+    updateHelp()
+    data.Comments = data.Comments.concat(cmt);
+    localStorage.setItem('data', JSON.stringify(data));
+    const li = updateUI(cmt);
+    ul.appendChild(li);
 }
+
 function setCurrentUser(u) {
   const user = document.getElementById('current-user');
   currentUser = u;
@@ -211,6 +228,7 @@ function updateUI(cmt) {
   const root = document.getElementById('comment-section')
   this.ul = root.querySelector('ul');
   const Ct = cmt;
+  let replies = cmt.replies;
   var date = new Date(cmt.id)
   var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
   var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
@@ -229,7 +247,7 @@ function updateUI(cmt) {
   const ul = document.createElement('ul');
   const avt = document.createElement('img');
   ul.setAttribute('id','reply-ul')
-  //li.appendChild(ul);
+  //li.appendChild(ul);false
 
   avt.src = Ct.img;
   avt.classList.add('cmt-avatar', 'circle', 'responsive-img');
@@ -402,9 +420,10 @@ function updateUI(cmt) {
   vcont.appendChild(down)
   li.appendChild(ul);
 
-  Ct.replies.forEach((replyId) => {
-    const rId = data.Comments.find((item) => item.id == replyId);
-    //addComment(rId,true,li);
+  cmt.replies.forEach((cmtId) => {
+    console.log(cmtId);
+    const rcmt = data.Comments.find((item) => item.id == cmtId);
+    addComment(rcmt,true,li);
   })
   items[cmt.id] = li
 
@@ -446,8 +465,11 @@ function printComments() {
   let Comments = data.Comments;
   const ul = document.getElementById('cs-ul')
   Comments.forEach((cmt) => {
-    const li = updateUI(cmt)
-    ul.appendChild(li);
+    const item = cmt;
+    if(!item.isReply){
+      const li = updateUI(item)
+      ul.appendChild(li);
+    }
   })
 }
 
