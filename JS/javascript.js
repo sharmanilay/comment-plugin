@@ -22,7 +22,7 @@ class Comment {
       const comment = this.input.value
       this.input.value = ''
       if (comment != "") {
-        addComment(comment,false);
+        addComment(comment,false,this.ul);
       }
     })
     this.ul.addEventListener('click', e => {
@@ -109,11 +109,11 @@ class User {
     }
   }
 }
-function addComment(comment,isReply) {
+function addComment(comment,isReply,parent) {
   // state logic
   var date = new Date();
   const id = String(date);
-  //console.log(date.getHours());
+  const ul = parent.querySelector('#reply-ul');
   var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
   var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
   state = state.concat({
@@ -136,7 +136,16 @@ function addComment(comment,isReply) {
   localStorage.setItem('data', JSON.stringify(data));
 
   updateHelp()
-  updateUI(cmt);
+  //if(!isReply){
+  //  ul = parent.querySelector('ul');
+  //}else{
+  //  ul = parent.querySelector('reply-ul');
+    const pid = parent.getAttribute('id');
+    const parot = data.Comments.find((item)=> item.id==pid)
+    parot.replies.push(id);
+  //}
+  const li = updateUI(cmt);
+  ul.appendChild(li);
 }
 function setCurrentUser(u) {
   const user = document.getElementById('current-user');
@@ -219,19 +228,20 @@ function updateUI(cmt) {
   const down = document.createElement('button');
   const ul = document.createElement('ul');
   const avt = document.createElement('img');
+  ul.setAttribute('id','reply-ul')
+  //li.appendChild(ul);
 
   avt.src = Ct.img;
   avt.classList.add('cmt-avatar', 'circle', 'responsive-img');
 
-  Ct.replies.forEach((replyId) => {
-    const rId = data.Comments.find((item) => item.id == replyId);
-    addComment(rId);
-  })
+
   //setting up a list-item
   li.classList.add('collection-item');
   li.setAttribute('id', cmt.id)
   li.setAttribute('user-id', cmt.userId)
-
+  if(cmt.isReply){
+    li.classList.add('kaala')
+  }
   //setting values
   vcont.classList.add('vcount');
   Name.innerText = Ct.user
@@ -355,6 +365,7 @@ function updateUI(cmt) {
     const mc = document.getElementById('mc')
     const rcButton = document.getElementById('rp-button')
     if (currentUser != null) {
+      mc.innerText = "";
       const form = document.createElement('form')
       const input = document.createElement('input')
       input.setAttribute('id', 'reply-comment')
@@ -374,7 +385,7 @@ function updateUI(cmt) {
 
 
   //Putting elements in the dom
-  this.ul.appendChild(li)
+
   li.appendChild(avt)
   li.appendChild(Name)
   li.appendChild(time)
@@ -389,7 +400,15 @@ function updateUI(cmt) {
   vcont.appendChild(up)
   vcont.appendChild(votes)
   vcont.appendChild(down)
+  li.appendChild(ul);
+
+  Ct.replies.forEach((replyId) => {
+    const rId = data.Comments.find((item) => item.id == replyId);
+    //addComment(rId,true,li);
+  })
   items[cmt.id] = li
+
+  return li;
 }
 
 function removeComment(id) {
@@ -407,8 +426,9 @@ function setReply() {
   this.inputValue = document.getElementById('reply-comment')
   if(this.inputValue!=null){
     const reply = this.inputValue.value;
-    var date = Date.now();
     const cmt = data.Comments.find((cmt) => cmt.id == replyId)
+    const parent = document.getElementById(replyId);
+    addComment(reply,true,parent);
   }
 }
 window.onload = function() {
@@ -424,8 +444,10 @@ window.onload = function() {
 
 function printComments() {
   let Comments = data.Comments;
+  const ul = document.getElementById('cs-ul')
   Comments.forEach((cmt) => {
-    updateUI(cmt)
+    const li = updateUI(cmt)
+    ul.appendChild(li);
   })
 }
 
