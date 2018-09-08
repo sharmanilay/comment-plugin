@@ -155,13 +155,24 @@ function addComment(comment,isReply,parent) {
       }
       const pid = parent.getAttribute('id');
       const parot = data.Comments.find((item)=> item.id==pid)
-      parot.replies.push(cmt.id);
+      const cid = parot.replies.find((item)=> item.id==cmt.id);
+      if(cid==null){
+        parot.replies.push(cmt.id);
+      }
   }
     updateHelp()
-    data.Comments = data.Comments.concat(cmt);
-    localStorage.setItem('data', JSON.stringify(data));
+    const check = data.Comments.find((item)=> item==cmt)
+    if(check==null){
+      data.Comments = data.Comments.concat(cmt);
+      localStorage.setItem('data', JSON.stringify(data));
+    }
     const li = updateUI(cmt);
-    ul.appendChild(li);
+    li.setAttribute('id',cmt.id);
+    const dcheck = document.getElementById(cmt.id);
+    if(dcheck===null){
+      //console.log("recalled "+cmt.comment)
+      ul.appendChild(li);
+    }
 }
 
 function setCurrentUser(u) {
@@ -257,9 +268,6 @@ function updateUI(cmt) {
   li.classList.add('collection-item');
   li.setAttribute('id', cmt.id)
   li.setAttribute('user-id', cmt.userId)
-  if(cmt.isReply){
-    li.classList.add('kaala')
-  }
   //setting values
   vcont.classList.add('vcount');
   Name.innerText = Ct.user
@@ -400,10 +408,7 @@ function updateUI(cmt) {
   })
 
 
-
-
   //Putting elements in the dom
-
   li.appendChild(avt)
   li.appendChild(Name)
   li.appendChild(time)
@@ -420,11 +425,19 @@ function updateUI(cmt) {
   vcont.appendChild(down)
   li.appendChild(ul);
 
-  cmt.replies.forEach((cmtId) => {
-    console.log(cmtId);
+  replies.forEach((cmtId) => {
     const rcmt = data.Comments.find((item) => item.id == cmtId);
-    addComment(rcmt,true,li);
-  })
+    const dcheck = document.getElementById(cmt.id);
+    if(dcheck===null){
+      setTimeout(()=>{
+        addComment(rcmt,true,li);
+      })
+    }
+  });
+  //replies.forEach( async (cmtId) => {
+  //  await waitFor(50)
+
+  //})
   items[cmt.id] = li
 
   return li;
@@ -450,6 +463,7 @@ function setReply() {
     addComment(reply,true,parent);
   }
 }
+
 window.onload = function() {
   var elems = document.querySelectorAll('.modal');
   var instances = M.Modal.init(elems);
@@ -466,7 +480,8 @@ function printComments() {
   const ul = document.getElementById('cs-ul')
   Comments.forEach((cmt) => {
     const item = cmt;
-    if(!item.isReply){
+    const dcheck = document.getElementById(cmt.id);
+    if(!item.isReply && dcheck===null){
       const li = updateUI(item)
       ul.appendChild(li);
     }
