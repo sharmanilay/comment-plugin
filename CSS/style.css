@@ -1,35 +1,46 @@
+:root {
+    --main-color: #3d314a;
+    --sec-color: #3d314a;
+    --cmt-color: #f7f4f3 ;
+}
+
 body{
   font-family: sans-serif;
-  background-color: #212121;
+  background-color: var(--sec-color);
+}
+.nav-wrapper{
+  background-color: var(--main-color);
 }
 .avt{
-  background-color: white;
+  background-color: var(--cmt-color);
   height: 400px;
   width: 400px;
 }
 .home{
   width: 100%;
   height: 75%;
-  background-image: url('../Images/cover.jpg');
+  background-image: url('https://images.pexels.com/photos/988872/pexels-photo-988872.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
   background-size: cover;
   text-align: center;
   align-content: center;
 }
 .cred{
-  background-color: white;
+  margin-top: 7%;
+  margin-bottom: 10%;
+  background-color: var(--cmt-color);
 }
 .nav-wrapper{
   padding-left: 1%;
   padding-right: 1%;
 }
 .heading{
-  padding-top: 10%;
-  padding-left: 5%;
-  color: #15A085;
-  font-size: 60px;
+  margin-top: 30%;
+  margin-right: 50%;
+  color: var(--sec-color);
+  font-size: 40px;
 }
 .heading2{
-  color: #15A085;
+  color: var(--sec-color);
   padding-left: 2.5%;
   margin-top: 0;
 }
@@ -39,14 +50,14 @@ body{
   padding-left: 1%;
   padding-right: 1%;
   margin-left: 5%;
-  color: #15A085;
+  color: var(--sec-color);
 }
 #addressList{
   width: 100%;
   padding-right: 5%;
   padding-left: 2%;
-  color: #15A085;
-  background-color: #212121;
+  color: var(--sec-color);
+  background-color: var(--main-color);
 }
 .file-path{
   width: 50%;
@@ -58,12 +69,12 @@ input {
   width: 10%;
 }
 .lg{
-  color:#15A085;
+  color:var(--sec-color);
   margin-top: 0;
   margin-left: 10px;
 }
 .help {
-  color: #15A085;
+  color: var(--sec-color);
   padding-left: 2%;
 }
 .hidden{
@@ -77,10 +88,18 @@ ul{
 }
 .username{
   width: 100%;
-  padding-bottom: 35px;
+  padding-bottom: 15px;
   padding-right: 10px;
-  color: #18A086;
+  padding-left: 10px;
+  color: var(--main-color);
   font-size: 20px;
+}
+.collection{
+  background-color: var(--cmt-color);
+}
+.collection-item{
+  background-color: var(--cmt-color) !important;
+  padding-bottom: 0px !important;
 }
 .comment{
   padding-left: 2%;
@@ -93,17 +112,20 @@ ul{
   padding-left: 10px
 }
 .vbutton{
-  background-color: white;
+  background-color: var(--cmt-color);
   border: none;
 }
 a{
-  color: green;
+  color: var(--main-color);
   padding: 2px;
   float: right;
   cursor: pointer;
 }
 .footer-copyright{
   text-align: center;
+}
+.btn{
+  background-color: var(--main-color);
 }
 .avatar{
   height: 20%;

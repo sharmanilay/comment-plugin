@@ -392,6 +392,7 @@ function updateUI(cmt) {
     const rcButton = document.getElementById('rp-button')
     if (currentUser != null) {
       mc.innerText = "";
+      rcButton.innerText = "Add Reply"
       const form = document.createElement('form')
       const input = document.createElement('input')
       input.setAttribute('id', 'reply-comment')
