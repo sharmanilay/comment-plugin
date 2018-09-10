@@ -24,23 +24,31 @@ body{
   text-align: center;
   align-content: center;
 }
+.home-main{
+  margin-left: 10%;
+}
 .cred{
+  margin-left: 25%;
   margin-top: 7%;
   margin-bottom: 10%;
+
   background-color: var(--cmt-color);
+  align-content: center;
 }
 .nav-wrapper{
   padding-left: 1%;
   padding-right: 1%;
 }
 .heading{
-  margin-top: 30%;
-  margin-right: 50%;
-  color: var(--sec-color);
+  margin-top: 20%;
+  margin-left: 20%;
+  padding: 10%;
+  background-color: var(--main-color);
+  color: var(--cmt-color);
   font-size: 40px;
 }
 .heading2{
-  color: var(--sec-color);
+  color: var(--cmt-color);
   padding-left: 2.5%;
   margin-top: 0;
 }
@@ -49,7 +57,8 @@ body{
   width: 50%;
   padding-left: 1%;
   padding-right: 1%;
-  margin-left: 5%;
+  margin-top: 10%;
+  margin-left: 30%;
   color: var(--sec-color);
 }
 #addressList{
@@ -69,7 +78,7 @@ input {
   width: 10%;
 }
 .lg{
-  color:var(--sec-color);
+  color:var(--cmt-color);
   margin-top: 0;
   margin-left: 10px;
 }
@@ -90,9 +99,9 @@ ul{
   width: 100%;
   padding-bottom: 15px;
   padding-right: 10px;
-  padding-left: 10px;
+  margin-left: 30px;
   color: var(--main-color);
-  font-size: 20px;
+  font-size: 3.5vh;
 }
 .collection{
   background-color: var(--cmt-color);
@@ -101,9 +110,22 @@ ul{
   background-color: var(--cmt-color) !important;
   padding-bottom: 0px !important;
 }
+.replies{
+  margin-left: 4%;
+}
 .comment{
-  padding-left: 2%;
+  padding-left: 4%;
+  font-size: 1.5w;
   color: blue;
+}
+.text-comment{
+  color: white;
+}
+.green{
+  background-color: green  !important;
+}
+.red{
+  background-color: red !important;
 }
 .time{
   font-size: 10px;
@@ -112,8 +134,13 @@ ul{
   padding-left: 10px
 }
 .vbutton{
+  font-size: 2.5vh;
   background-color: var(--cmt-color);
-  border: none;
+  border: black;
+}
+.ubutton{
+  background-color: var(--cmt-color);
+  border: black;
 }
 a{
   color: var(--main-color);
@@ -124,7 +151,13 @@ a{
 .footer-copyright{
   text-align: center;
 }
+.btn2{
+  margin-top: 7.5%;
+  margin-left: 2%;
+  background-color: var(--main-color);
+}
 .btn{
+
   background-color: var(--main-color);
 }
 .avatar{
@@ -132,6 +165,20 @@ a{
   width: 40%;
 }
 .cmt-avatar{
-  height: 20vh;
-  width: 2.5vw;
+  padding-top: 15px;
+  height: 50vh;
+  width: 5vh;
+}
+
+@media screen and (max-width: 600px) {
+  .comment{
+    font-size: 5vw;
+  }
+  .hide-on-med-add-down{
+    display: none;
+  }
+  #handle{
+    margin: 5%;
+    width: 90%;
+  }
 }

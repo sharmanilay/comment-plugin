@@ -2,7 +2,8 @@
   <head>
     <title>Comment module</title>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
     <link rel="stylesheet" type="text/css" href="CSS/style.css">
   </head>
@@ -11,6 +12,7 @@
       <nav>
         <div class="nav-wrapper">
           <a href="#" class="brand-logo">cleartax</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul id="nav-mobile" class="right hide-on-med-add-down">
             <li><a href="#">Tax Filling & Saving</a></li>
             <li><a href="#">CA & Legal Services</a></li>
@@ -18,22 +20,30 @@
           </ul>
         </div>
       </nav>
-      <div class="home row">
-        <div class="home-main col s6">
+      <ul class="sidenav" id="mobile-demo">
+        <li><a href="#">Tax Filling & Saving</a></li>
+        <li><a href="#">CA & Legal Services</a></li>
+        <li><a href="#">GST & Billing</a></li>
+      </ul>
+      <div id="home" class="home row">
+        <div id="remove-mb" class="col s6">
+          <h2 class="heading">Login to discuss</h2>
+        </div>
+        <div id="home-main"  class="home-main col s6">
           <div class="cred row center-align" id="handle">
-                <form class="col s12">
+                <form class="col s12 lg-form">
                   <div class="input-field">
                     <input required="true" autocomplete="off" class="validate" id="name" type="text" >
                     </input>
                     <label class="help" for="name">Name/Handle</label>
                   </div>
                   <div class="file-field input-field">
-                      <div class="btn">
+                      <div class="btn btn2">
                           <span>Avatar</span>
                           <input src="" id="avatar" onchange="previewFile()" type="file">
                       </div>
                       <div class="file-path-wrapper">
-                        <img class="circle avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQYBKbWgRtEVekYT2fh9l3sudGGq8-LjDfqMGEhgPqk31U4kzb" id="tableAvatar" />
+                        <img class="square avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQYBKbWgRtEVekYT2fh9l3sudGGq8-LjDfqMGEhgPqk31U4kzb" id="tableAvatar" />
                       </div>
                   </div>
                   <div class="input-field">
@@ -47,15 +57,13 @@
                     <label class="help" for="password">Password</label>
                     <span id="helper-txt" class="helper-text"></span>
                   </div>
-                  <button id="bt" class="btn waves-effect waves-light" onclick="setName()">
+                  <button id="bt" class="btn btn2 waves-effect waves-light" onclick="setName()">
                     Login
                   </button>
                 </form>
           </div>
         </div>
-        <div class="col s6">
-          <h2 class="heading">Login to discuss</h2>
-        </div>
+
       </div>
       <div id="modal1" class="modal">
         <div id="mc" class="modal-content">
@@ -72,7 +80,7 @@
           <ul id="cs-ul" class="collection">
           </ul>
           <form class="comment">
-            <input placeholder="Add Comment">
+            <input class="text-comment" placeholder="Add Comment">
               <button  id="comment-reply" class="btn waves-effect waves-light" onclick="setComment()">
                 Comment
               </button>

@@ -8,6 +8,8 @@ this.state = []
 var currentUser;
 var replyId;
 var reader = new FileReader();
+var height;
+var width;
 
 class Comment {
   constructor(root) {
@@ -172,6 +174,7 @@ function addComment(comment,isReply,parent) {
     if(dcheck===null){
       //console.log("recalled "+cmt.comment)
       ul.appendChild(li);
+      ul.classList.add('replies')
     }
 }
 
@@ -261,7 +264,7 @@ function updateUI(cmt) {
   //li.appendChild(ul);false
 
   avt.src = Ct.img;
-  avt.classList.add('cmt-avatar', 'circle', 'responsive-img');
+  avt.classList.add('cmt-avatar', 'square', 'responsive-img');
 
 
   //setting up a list-item
@@ -311,10 +314,13 @@ function updateUI(cmt) {
       })
       //downvotes.add(user.downvotes);
       if (!downvotes.size && !upvotes.size) {
+        up.classList.add('green');
         Ct.votes++;
         upvotes.add(Ct.id);
       }
       if (downvotes.has(cmt.id)) {
+        down.classList.remove('red');
+        up.classList.add('green');
         Ct.votes += 2;
         downvotes.delete(cmt.id);
         upvotes.add(cmt.id);
@@ -333,7 +339,7 @@ function updateUI(cmt) {
       down.classList.remove('disabled');
     }
   })
-  up.classList.add('vbutton')
+  up.classList.add('ubutton')
 
   //downvote
   down.innerHTML = '&#x21e9';
@@ -353,11 +359,15 @@ function updateUI(cmt) {
       })
       //downvotes.add(user.downvotes);
 
+
       if (!downvotes.size && !upvotes.size) {
+        this.classList.add('red');
         Ct.votes--;
         downvotes.add(Ct.id);
       }
       if (upvotes.has(cmt.id)) {
+        down.classList.add('red');
+        up.classList.remove('green');
         Ct.votes -= 2;
         upvotes.delete(cmt.id);
         downvotes.add(cmt.id);
@@ -373,11 +383,11 @@ function updateUI(cmt) {
       localStorage.setItem('data', JSON.stringify(data));
       //console.log(user.downvotes.size);
       votes.innerText = Ct.votes
-      down.classList.add('disabled');
-      up.classList.remove('disabled');
+      //down.classList.add('disabled');
+      //up.classList.remove('disabled');
     }
   })
-  down.classList.add('vbutton')
+  down.classList.add('ubutton')
 
 
   //reply
@@ -418,8 +428,8 @@ function updateUI(cmt) {
   if (currentUser == null || cmt.user == currentUser.user) {
     del.classList.add('hidden');
   }
-  li.appendChild(rep)
   li.appendChild(span)
+  li.appendChild(rep)
   li.appendChild(vcont)
   vcont.appendChild(up)
   vcont.appendChild(votes)
@@ -466,12 +476,54 @@ function setReply() {
 }
 
 window.onload = function() {
+  width = window.innerWidth
   var elems = document.querySelectorAll('.modal');
   var instances = M.Modal.init(elems);
+  var nav = document.querySelectorAll('.sidenav');
+  var navitems = M.Sidenav.init(nav);
+  if(window.innerWidth<600){
+    const loginDiv = document.getElementById('remove-mb');
+    const home = document.getElementById('home');
+    const homeMain = document.getElementById('home-main');
+    home.removeChild(loginDiv);
+    homeMain.classList.remove('s6');
+    homeMain.classList.add('s12');
+  }
   var datas = JSON.parse(localStorage.getItem('data'));
   if (datas != null) {
     data = datas;
     printComments();
+  }
+}
+window.onresize = function () {
+  var newWidth = window.innerWidth;
+  if(window.innerWidth<600 && width-newWidth!=0){
+    const loginDiv = document.getElementById('remove-mb');
+    const home = document.getElementById('home');
+    const homeMain = document.getElementById('home-main');
+    home.removeChild(loginDiv);
+    homeMain.classList.remove('s6');
+    homeMain.classList.add('s12');
+  }
+
+  if(newWidth>600 && document.getElementById('remove-mb')==null){
+    width = newWidth;
+    const home = document.getElementById('home');
+    const homeMain = document.getElementById('home-main');
+    const loginDiv = document.createElement('div');
+    const heading = document.createElement('h2');
+
+
+    loginDiv.setAttribute('id','remove-mb');
+    loginDiv.classList.add('col', 's6');
+
+    heading.innerText = "Login to discuss"
+    heading.classList.add('heading');
+    loginDiv.appendChild(heading)
+
+    home.insertBefore(loginDiv,home.childNodes[0]);
+    homeMain.classList.remove('s12');
+    homeMain.classList.add('s6');
   }
 }
 
