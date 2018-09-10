@@ -144,12 +144,6 @@ class User {
         this.nameInput.disabled = true;
         this.emailInput.disabled = true;
         this.passwordInput.disabled = true;
-      }else if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
-        this.emailInput.value = "Please Enter a valid email"
-      }else if ("" === name) {
-        const bt = document.getElementById('bt');
-        bt.innerText = "Login";
-        window.location.href = '#';
       }
     }
   }
@@ -297,7 +291,7 @@ function updateUI(cmt) {
   const del = document.createElement('a')
   const time = document.createElement('span');
   const vcont = document.createElement('span');
-  const votes = document.createElement('span');
+  const votes = document.createElement('div');
   const up = document.createElement('button');
   const down = document.createElement('button');
   const ul = document.createElement('ul');
@@ -328,8 +322,11 @@ function updateUI(cmt) {
 
   //votes
   votes.classList.add('votes')
-  votes.innerText = Ct.votes
-
+  if(Ct.votes>0){
+    votes.innerText = '+'+Ct.votes
+  }else{
+    votes.innerText = Ct.votes
+  }
   //Comment
   span.classList.add('comment')
   span.innerText = cmt.comment
@@ -376,7 +373,11 @@ function updateUI(cmt) {
       user.upvotes = [];
       user.upvotes = [...upvotes];
       localStorage.setItem('data', JSON.stringify(data));
-      votes.innerText = Ct.votes
+      if(Ct.votes>0){
+        votes.innerText = '+'+Ct.votes
+      }else{
+        votes.innerText = Ct.votes
+      }
       up.classList.add('disabled');
       down.classList.remove('disabled');
     }
@@ -425,7 +426,11 @@ function updateUI(cmt) {
       user.downvotes = [...downvotes]
       localStorage.setItem('data', JSON.stringify(data));
       //console.log(user.downvotes.size);
-      votes.innerText = Ct.votes
+      if(Ct.votes>0){
+        votes.innerText = '+'+Ct.votes
+      }else{
+        votes.innerText = Ct.votes
+      }
       down.classList.add('disabled');
       up.classList.remove('disabled');
     }

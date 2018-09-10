@@ -127,10 +127,12 @@ ul{
   color: white;
 }
 .green{
-  background-color: green  !important;
+  border-radius: 4px;
+  background-color: lightgreen  !important;
 }
 .red{
-  background-color: red !important;
+  border-radius: 4px;
+  background-color: crimson !important;
 }
 .time{
   float: right;
@@ -139,7 +141,10 @@ ul{
 }
 
 .votes{
-  padding: 10px
+  padding: 5px;
+  width: 30px;
+  display: inline-block;
+  text-align: center;
 }
 .vbutton{
   float: right;
