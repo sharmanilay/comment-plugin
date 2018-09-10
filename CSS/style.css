@@ -166,6 +166,9 @@ a{
   margin-left: 2%;
   background-color: var(--main-color);
 }
+.lg-alert{
+  padding: 30px 0 0 30px;
+}
 .btn{
 
   background-color: var(--main-color);
