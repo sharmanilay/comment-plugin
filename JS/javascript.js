@@ -455,6 +455,7 @@ function updateUI(cmt) {
       const form = document.createElement('form')
       const input = document.createElement('input')
       input.setAttribute('id', 'reply-comment')
+      input.setAttribute('autocomplete', 'off')
       input.setAttribute('placeholder', 'add a reply')
       form.appendChild(input)
       mc.appendChild(form)
