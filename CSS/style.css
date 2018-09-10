@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i|Roboto+Mono');
+
 :root {
     --main-color: #3d314a;
     --sec-color: #3d314a;
-    --cmt-color: #f7f4f3 ;
+    --cmt-color:#fceff9 ;
 }
 
 body{
@@ -94,27 +96,31 @@ ul{
   margin: 1%;
 }
 .username{
+  font-family: 'Roboto Mono', monospace;
   width: 100%;
   padding-bottom: 15px;
   padding-right: 10px;
-  margin-left: 30px;
+  margin-left: 15px;
   color: var(--main-color);
-  font-size: 3.5vh;
+  font-size: 3vh;
 }
 .collection{
   background-color: var(--cmt-color);
+  padding-left: 12px !important;
+  padding-right: 12px;
 }
 .collection-item{
   background-color: var(--cmt-color) !important;
   border-top: 1px solid var(--main-color);
-  padding-bottom: 0px !important;
+  padding: 0px !important;
 }
 .replies{
   margin-left: 4%;
 }
 .comment{
-  padding-left: 4%;
-  font-size: 1.5w;
+  font-family: 'IBM Plex Sans', sans-serif;
+  padding-left: 3.5%;
+  font-size: 2w;
   color: blue;
 }
 .text-comment{
@@ -127,12 +133,17 @@ ul{
   background-color: red !important;
 }
 .time{
+  float: right;
+  margin-right: 5px;
   font-size: 10px;
 }
+
 .votes{
-  padding-left: 10px
+  padding: 10px
 }
 .vbutton{
+  float: right;
+  margin-right: 5px;
   font-size: 2.5vh;
   background-color: var(--cmt-color);
   border: black;
@@ -165,13 +176,20 @@ a{
 }
 .cmt-avatar{
   padding-top: 15px;
+
   height: 50vh;
   width: 5vh;
 }
 
 @media screen and (max-width: 600px) {
   .comment{
-    font-size: 5vw;
+    font-size: 4vw;
+    padding-left: 10%;
+  }
+  .username{
+    margin-left: 4px !important;
+    top: 40%;
+    font-size: 4.2vw;
   }
   .hide-on-med-add-down{
     display: none;
@@ -179,5 +197,17 @@ a{
   #handle{
     margin: 5%;
     width: 90%;
+  }
+  .votes{
+    font-size:2vh;
+    padding: 3px;
+  }
+  .vbutton{
+    font-size: 2vh;
+  }
+  .ubutton{
+    font-size: 2vh;
+    padding-left: 7px !important;
+    padding-right: 7px !important;
   }
 }

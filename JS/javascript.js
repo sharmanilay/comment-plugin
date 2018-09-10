@@ -10,6 +10,59 @@ var replyId;
 var reader = new FileReader();
 var width;
 
+window.onload = function() {
+  width = window.innerWidth
+  var elems = document.querySelectorAll('.modal');
+  var instances = M.Modal.init(elems);
+  var nav = document.querySelectorAll('.sidenav');
+  var navitems = M.Sidenav.init(nav);
+  if(window.innerWidth<600){
+    const loginDiv = document.getElementById('remove-mb');
+    const home = document.getElementById('home');
+    const homeMain = document.getElementById('home-main');
+    home.removeChild(loginDiv);
+    homeMain.classList.remove('s6');
+    homeMain.classList.add('s12');
+  }
+  var datas = JSON.parse(localStorage.getItem('data'));
+  if (datas != null) {
+    data = datas;
+    printComments();
+  }
+}
+window.onresize = function () {
+  var newWidth = window.innerWidth;
+  if(window.innerWidth<600 && width-newWidth!=0){
+    const loginDiv = document.getElementById('remove-mb');
+    const home = document.getElementById('home');
+    const homeMain = document.getElementById('home-main');
+    home.removeChild(loginDiv);
+    homeMain.classList.remove('s6');
+    homeMain.classList.add('s12');
+  }
+
+  if(newWidth>600 && document.getElementById('remove-mb')==null){
+    width = newWidth;
+    const home = document.getElementById('home');
+    const homeMain = document.getElementById('home-main');
+    const loginDiv = document.createElement('div');
+    const heading = document.createElement('h2');
+
+
+    loginDiv.setAttribute('id','remove-mb');
+    loginDiv.classList.add('col', 's6');
+
+    heading.innerText = "Login to discuss"
+    heading.classList.add('heading');
+    loginDiv.appendChild(heading)
+
+    home.insertBefore(loginDiv,home.childNodes[0]);
+    homeMain.classList.remove('s12');
+    homeMain.classList.add('s6');
+  }
+}
+
+
 class Comment {
   constructor(root) {
     //UI varialbles
@@ -239,12 +292,11 @@ function updateHelp() {
 
 function updateUI(cmt) {
   const root = document.getElementById('comment-section')
-  this.ul = root.querySelector('ul');
   const Ct = cmt;
   let replies = cmt.replies;
   var date = new Date(cmt.id)
-  var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-  var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+  //var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+  //var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
 
   //creating elements
   const li = document.createElement('li')
@@ -260,7 +312,6 @@ function updateUI(cmt) {
   const ul = document.createElement('ul');
   const avt = document.createElement('img');
   ul.setAttribute('id','reply-ul')
-  //li.appendChild(ul);false
 
   avt.src = Ct.img;
   avt.classList.add('cmt-avatar', 'square', 'responsive-img');
@@ -313,18 +364,19 @@ function updateUI(cmt) {
       })
       //downvotes.add(user.downvotes);
       if (!downvotes.size && !upvotes.size) {
-        up.classList.add('green');
+        votes.classList.add('green');
         Ct.votes++;
         upvotes.add(Ct.id);
       }
       if (downvotes.has(cmt.id)) {
-        down.classList.remove('red');
-        up.classList.add('green');
+        votes.classList.remove('red');
+        votes.classList.add('green');
         Ct.votes += 2;
         downvotes.delete(cmt.id);
         upvotes.add(cmt.id);
       }
       if (!upvotes.has(cmt.id)) {
+        votes.classList.add('green');
         Ct.votes++;
         upvotes.add(cmt.id);
       }
@@ -360,18 +412,19 @@ function updateUI(cmt) {
 
 
       if (!downvotes.size && !upvotes.size) {
-        this.classList.add('red');
+        votes.classList.add('red');
         Ct.votes--;
         downvotes.add(Ct.id);
       }
       if (upvotes.has(cmt.id)) {
-        down.classList.add('red');
-        up.classList.remove('green');
+        votes.classList.add('red');
+        votes.classList.remove('green');
         Ct.votes -= 2;
         upvotes.delete(cmt.id);
         downvotes.add(cmt.id);
       }
       if (!downvotes.has(cmt.id)) {
+        votes.classList.add('red');
         Ct.votes--;
         downvotes.add(cmt.id);
       }
@@ -469,59 +522,6 @@ function setReply() {
     addComment(reply,true,parent);
   }
 }
-
-window.onload = function() {
-  width = window.innerWidth
-  var elems = document.querySelectorAll('.modal');
-  var instances = M.Modal.init(elems);
-  var nav = document.querySelectorAll('.sidenav');
-  var navitems = M.Sidenav.init(nav);
-  if(window.innerWidth<600){
-    const loginDiv = document.getElementById('remove-mb');
-    const home = document.getElementById('home');
-    const homeMain = document.getElementById('home-main');
-    home.removeChild(loginDiv);
-    homeMain.classList.remove('s6');
-    homeMain.classList.add('s12');
-  }
-  var datas = JSON.parse(localStorage.getItem('data'));
-  if (datas != null) {
-    data = datas;
-    printComments();
-  }
-}
-window.onresize = function () {
-  var newWidth = window.innerWidth;
-  if(window.innerWidth<600 && width-newWidth!=0){
-    const loginDiv = document.getElementById('remove-mb');
-    const home = document.getElementById('home');
-    const homeMain = document.getElementById('home-main');
-    home.removeChild(loginDiv);
-    homeMain.classList.remove('s6');
-    homeMain.classList.add('s12');
-  }
-
-  if(newWidth>600 && document.getElementById('remove-mb')==null){
-    width = newWidth;
-    const home = document.getElementById('home');
-    const homeMain = document.getElementById('home-main');
-    const loginDiv = document.createElement('div');
-    const heading = document.createElement('h2');
-
-
-    loginDiv.setAttribute('id','remove-mb');
-    loginDiv.classList.add('col', 's6');
-
-    heading.innerText = "Login to discuss"
-    heading.classList.add('heading');
-    loginDiv.appendChild(heading)
-
-    home.insertBefore(loginDiv,home.childNodes[0]);
-    homeMain.classList.remove('s12');
-    homeMain.classList.add('s6');
-  }
-}
-
 
 function printComments() {
   let Comments = data.Comments;
