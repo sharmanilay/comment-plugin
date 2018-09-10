@@ -275,7 +275,7 @@ function setComment() {
   } else {
     const btt = document.getElementById('comment-reply')
     btt.classList.add('modal-trigger')
-    btt.setAttribute('data-target', 'modal1')
+    btt.setAttribute('data-target', 'modal2')
     window.location.href = '#';
   }
 }
