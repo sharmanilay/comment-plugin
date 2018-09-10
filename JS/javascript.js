@@ -211,7 +211,7 @@ function addComment(comment,isReply,parent) {
     if(dcheck===null){
       //console.log("recalled "+cmt.comment)
       ul.appendChild(li);
-      ul.classList.add('replies')
+      //ul.classList.add('replies')
     }
 }
 
@@ -297,6 +297,7 @@ function updateUI(cmt) {
   const ul = document.createElement('ul');
   const avt = document.createElement('img');
   ul.setAttribute('id','reply-ul')
+  ul.classList.add('replies')
 
   avt.src = Ct.img;
   avt.classList.add('cmt-avatar', 'square', 'responsive-img');
