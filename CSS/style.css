@@ -1,13 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i|Roboto+Mono');
+
+:root {
+    --main-color: #3d314a;
+    --sec-color: #3d314a;
+    --cmt-color:#fceff9 ;
+}
+
 body{
   font-family: sans-serif;
-  background-color: #212121;
+  background-color: var(--sec-color);
+}
+.nav-wrapper{
+  background-color: var(--main-color);
+}
+.avt{
+  background-color: var(--cmt-color);
+  height: 400px;
+  width: 400px;
 }
 .home{
   width: 100%;
   height: 75%;
-  background-image: url('../Images/cover.jpg');
+  background-image: url('https://images.pexels.com/photos/988872/pexels-photo-988872.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
   background-size: cover;
   text-align: center;
+  align-content: center;
+}
+.home-main{
+  margin-left: 10%;
+}
+.cred{
+  margin-left: 25%;
+  margin-top: 7%;
+  background-color: var(--cmt-color);
   align-content: center;
 }
 .nav-wrapper{
@@ -15,28 +40,36 @@ body{
   padding-right: 1%;
 }
 .heading{
-  padding-top: 10%;
-  padding-left: 5%;
-  color: #15A085;
+  margin-top: 20%;
+  margin-left: 20%;
+  padding: 10%;
+  background-color: var(--main-color);
+  color: var(--cmt-color);
+  font-size: 40px;
 }
 .heading2{
-  color: #15A085;
+  color: var(--cmt-color);
   padding-left: 2.5%;
   margin-top: 0;
 }
 #handle{
   padding-top: 5%;
   width: 50%;
-  padding-left: 5%;
-  color: #15A085;
+  padding-left: 1%;
+  padding-right: 1%;
+  margin-top: 10%;
+  margin-left: 30%;
+  color: var(--sec-color);
 }
 #addressList{
   width: 100%;
   padding-right: 5%;
   padding-left: 2%;
-  color: #15A085;
-  background-color: #212121;
-
+  color: var(--sec-color);
+  background-color: var(--main-color);
+}
+.file-path{
+  width: 50%;
 }
 input {
   font-size: 30px;
@@ -45,12 +78,12 @@ input {
   width: 10%;
 }
 .lg{
-  color:#15A085;
+  color:var(--cmt-color);
   margin-top: 0;
   margin-left: 10px;
 }
 .help {
-  color: #15A085;
+  color: var(--sec-color);
   padding-left: 2%;
 }
 .hidden{
@@ -60,29 +93,121 @@ input {
 ul{
   list-style-type: none;
   padding: 0;
+  margin: 1%;
 }
 .username{
+  font-family: 'Roboto Mono', monospace;
   width: 100%;
-  padding-bottom: 35px;
-  color: #18A086;
-  font-size: 20px;
+  padding-bottom: 15px;
+  padding-right: 10px;
+  margin-left: 15px;
+  color: var(--main-color);
+  font-size: 3vh;
+}
+.collection{
+  background-color: var(--cmt-color);
+  padding-left: 12px !important;
+  padding-right: 12px;
+}
+.collection-item{
+  background-color: var(--cmt-color) !important;
+  border-top: 1px solid var(--main-color);
+  padding: 0px !important;
+}
+.replies{
+  margin-left: 4%;
 }
 .comment{
-  padding-left: 2%;
+  font-family: 'IBM Plex Sans', sans-serif;
+  padding-left: 3.5%;
+  font-size: 2w;
   color: blue;
 }
+.text-comment{
+  color: white;
+}
+.green{
+  background-color: green  !important;
+}
+.red{
+  background-color: red !important;
+}
 .time{
+  float: right;
+  margin-right: 5px;
   font-size: 10px;
 }
+
 .votes{
+  padding: 10px
+}
+.vbutton{
   float: right;
-  padding-right: 10px
+  margin-right: 5px;
+  font-size: 2.5vh;
+  background-color: var(--cmt-color);
+  border: black;
+}
+.ubutton{
+  background-color: var(--cmt-color);
+  border: black;
 }
 a{
-  color: red;
+  color: var(--main-color);
+  padding: 2px;
   float: right;
   cursor: pointer;
 }
 .footer-copyright{
   text-align: center;
+}
+.btn2{
+  margin-top: 7.5%;
+  margin-left: 2%;
+  background-color: var(--main-color);
+}
+.btn{
+
+  background-color: var(--main-color);
+}
+.avatar{
+  height: 20%;
+  width: 40%;
+}
+.cmt-avatar{
+  padding-top: 15px;
+
+  height: 50vh;
+  width: 5vh;
+}
+
+@media screen and (max-width: 600px) {
+  .comment{
+    font-size: 4vw;
+    padding-left: 10%;
+  }
+  .username{
+    margin-left: 4px !important;
+    top: 40%;
+    font-size: 4.2vw;
+  }
+  .hide-on-med-add-down{
+    display: none;
+  }
+  #handle{
+    margin: 5%;
+    width: 90%;
+  }
+  .votes{
+    font-size:2vh;
+    padding: 3px;
+  }
+  .vbutton{
+    font-size: 2vh;
+  }
+  .ubutton{
+    font-size: 2vh;
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+  }
 }

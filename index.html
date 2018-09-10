@@ -2,15 +2,17 @@
   <head>
     <title>Comment module</title>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
     <link rel="stylesheet" type="text/css" href="CSS/style.css">
   </head>
   <body>
   <div class="container-fluid">
       <nav>
-        <div class="nav-wrapper grey darken-4">
+        <div class="nav-wrapper">
           <a href="#" class="brand-logo">cleartax</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul id="nav-mobile" class="right hide-on-med-add-down">
             <li><a href="#">Tax Filling & Saving</a></li>
             <li><a href="#">CA & Legal Services</a></li>
@@ -18,23 +20,56 @@
           </ul>
         </div>
       </nav>
-      <div class="home row">
-        <div class="home-main col s6">
-          <div class="valign-wrapper">
-              <h1 class="heading">Discuss to Innovate!</h1>
-          </div>
-          <div class="row center-align" id="handle">
-                <form class="col s12">
+      <ul class="sidenav" id="mobile-demo">
+        <li><a href="#">Tax Filling & Saving</a></li>
+        <li><a href="#">CA & Legal Services</a></li>
+        <li><a href="#">GST & Billing</a></li>
+      </ul>
+      <div id="home" class="home row">
+        <div id="remove-mb" class="col s6">
+          <h2 class="heading">Login to discuss</h2>
+        </div>
+        <div id="home-main"  class="home-main col s6">
+          <div class="cred row center-align" id="handle">
+                <form class="col s12 lg-form">
                   <div class="input-field">
-                    <input autocomplete="off" class="validate" id="name" type="text" >
+                    <input required="true" autocomplete="off" class="validate" id="name" type="text" >
                     </input>
                     <label class="help" for="name">Name/Handle</label>
                   </div>
-                  <button id="bt" class="btn waves-effect waves-light" onclick="setName()">
-                    Enter discussion
+                  <div class="file-field input-field">
+                      <div class="btn btn2">
+                          <span>Avatar</span>
+                          <input src="" id="avatar" onchange="previewFile()" type="file">
+                      </div>
+                      <div class="file-path-wrapper">
+                        <img class="square avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQYBKbWgRtEVekYT2fh9l3sudGGq8-LjDfqMGEhgPqk31U4kzb" id="tableAvatar" />
+                      </div>
+                  </div>
+                  <div class="input-field">
+                    <input required="true" autocomplete="off" class="validate" id="email" type="email" >
+                    </input>
+                    <label class="help" for="email">Email</label>
+                  </div>
+                  <div class="input-field">
+                    <input required="true" autocomplete="off" class="validate" id="password" type="password" >
+                    </input>
+                    <label class="help" for="password">Password</label>
+                    <span id="helper-txt" class="helper-text"></span>
+                  </div>
+                  <button id="bt" class="btn btn2 waves-effect waves-light" onclick="setName()">
+                    Login
                   </button>
                 </form>
           </div>
+        </div>
+
+      </div>
+      <div id="modal1" class="modal">
+        <div id="mc" class="modal-content">
+        </div>
+        <div class="modal-footer">
+          <button id="rp-button"  onclick="setReply()" class="modal-close btn-flat">Add Reply</a>
         </div>
       </div>
       <div class="row">
@@ -42,11 +77,11 @@
         <h2 class="heading2">Comment Section</h2>
         <div class="col s12" id="comment-section">
           <label class="help"></label>
-          <ul class="collection">
+          <ul id="cs-ul" class="collection">
           </ul>
           <form class="comment">
-            <input placeholder="Add Comment">
-              <button class="btn waves-effect waves-light" onclick="setComment()">
+            <input class="text-comment" placeholder="Add Comment">
+              <button  id="comment-reply" class="btn waves-effect waves-light" onclick="setComment()">
                 Comment
               </button>
             </input>
@@ -56,7 +91,7 @@
       <footer class="page-footer grey darken-4">
         <div  class="footer-copyright">
             <div class="container">
-              <h4>Footer</h4>
+              Copyright (c) 2018 Copyright Holder All Rights Reserved.
             </div>
         </div>
       </footer>
