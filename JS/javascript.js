@@ -122,30 +122,12 @@ class User {
       } else if (u.user != name) {
         this.emailInput.value = "Email already in use!";
       } else if (u.password != password) {
-
         alert.innerText = "Wrong Password!"
       }
     } else {
-      if (name != "" && email != "" && password != "" && bt.innerText != "Logout") {
+      if (name != "" && (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) && password != "" && bt.innerText != "Logout") {
         const bt = document.getElementById('bt');
         bt.innerText = "Logout";
-        /*var userComments = document.querySelectorAll("[userId='+CSS.escape(currentUser.id)+']");
-        console.log(userComments)
-        for(var i in userComments){
-              const del = userComments[i].querySelector('.hidden');
-              console.log("delete button shown");
-              del.classList.remove('hidden');
-        }*/
-        this.nameInput.disabled = true;
-        this.emailInput.disabled = true;
-        this.passwordInput.disabled = true;
-      }
-      if ("" === name) {
-        alert("Please enter a name");
-        const bt = document.getElementById('bt');
-        bt.innerText = "Login";
-        window.location.href = '#';
-      } else {
         const upvotes = [];
         const downvotes = [];
         const dat = new Date();
@@ -159,6 +141,15 @@ class User {
           downvotes: downvotes,
         }
         setCurrentUser(u);
+        this.nameInput.disabled = true;
+        this.emailInput.disabled = true;
+        this.passwordInput.disabled = true;
+      }else if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
+        this.emailInput.value = "Please Enter a valid email"
+      }else if ("" === name) {
+        const bt = document.getElementById('bt');
+        bt.innerText = "Login";
+        window.location.href = '#';
       }
     }
   }
