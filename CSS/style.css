@@ -30,8 +30,6 @@ body{
 .cred{
   margin-left: 25%;
   margin-top: 7%;
-  margin-bottom: 10%;
-
   background-color: var(--cmt-color);
   align-content: center;
 }
@@ -108,6 +106,7 @@ ul{
 }
 .collection-item{
   background-color: var(--cmt-color) !important;
+  border-top: 1px solid var(--main-color);
   padding-bottom: 0px !important;
 }
 .replies{
