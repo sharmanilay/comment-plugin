@@ -426,8 +426,8 @@ function updateUI(cmt) {
       localStorage.setItem('data', JSON.stringify(data));
       //console.log(user.downvotes.size);
       votes.innerText = Ct.votes
-      //down.classList.add('disabled');
-      //up.classList.remove('disabled');
+      down.classList.add('disabled');
+      up.classList.remove('disabled');
     }
   })
   down.classList.add('ubutton')
